@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: monad-gas-tracker-backend
+    ports:
+      - "3001:3001"
+    volumes:
+      # For development, you might mount source code:
+      # - ./backend/src:/usr/src/app/src
+      # For production, rely on the image build.
+      # You can mount a .env file for production secrets:
+      - ./backend/.env:/usr/src/app/.env
+    environment:
+      - PORT=3001
+      # MONAD_RPC_URL can be set here if needed for a real node
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # This ensures the frontend, when accessed directly, knows where to find the backend API.
+        # '/api' assumes a reverse proxy is set up in front of this docker-compose stack,
+        # or that the user accesses backend on 3001 and frontend on 80/8080 separately.
+        # For direct container-to-container communication if frontend was server-side rendered or making direct calls: http://backend:3001/api
+        VITE_API_BASE_URL=/api # Default, assuming reverse proxy or separate access
+        # If you want the frontend to try and hit the backend directly via its Docker DNS name (e.g. if serving via Node)
+        # VITE_API_BASE_URL=http://backend:3001/api
+    container_name: monad-gas-tracker-frontend
+    ports:
+      - "8080:80" # Map host port 8080 to container port 80 (nginx)
+    depends_on:
+      - backend
+    restart: unless-stopped
+    # environment: # Alternative way to set VITE_API_BASE_URL if not using build args
+    #   NUXT_PUBLIC_API_BASE_URL: http://localhost:3001/api # Example for Nuxt, adjust for Vite if needed
+
+# Optional: Add a reverse proxy like Nginx or Traefik here to handle routing /api to backend
+# and / to frontend, exposing only port 80/443.

@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+dist/
+build/
+
+# Frontend specific
+frontend/node_modules/
+frontend/build/
+frontend/.DS_Store
+frontend/.env.local
+frontend/.env.*.local
+frontend/.env
+frontend/.env.development
+frontend/.env.production
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Backend specific
+backend/node_modules/
+backend/dist/
+backend/.DS_Store
+backend/.env
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+
+# IDE specific
+.vscode/
+.idea/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Docker specific
+**/Dockerfile.dockerignore
+# Docker build cache (though often handled by Docker system prune or specific build commands)
+.dockerignore # if used at root
+docker-compose.override.yml # Common for local overrides, might not want to commit
