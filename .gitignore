@@ -26,7 +26,6 @@ backend/yarn-debug.log*
 backend/yarn-error.log*
 
 # IDE specific
-.vscode/
 .idea/
 
 # OS specific
@@ -38,3 +37,4 @@ Thumbs.db
 # Docker build cache (though often handled by Docker system prune or specific build commands)
 .dockerignore # if used at root
 docker-compose.override.yml # Common for local overrides, might not want to commit
+config.bat
